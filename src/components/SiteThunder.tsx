@@ -4,11 +4,9 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 /**
- * SiteThunder — an ambient, viewport-wide lightning storm layered over the
- * whole site. It fires on its own at random intervals: a couple of glowing
- * jagged bolts plus a soft colored sky-flash, tinted from the brand palette
- * (mikan gold, storm blue, vest red). Purely decorative — pointer-events are
- * off and it lightens only (mix-blend-screen), so it never blocks the UI.
+ * SiteThunder — an ambient, distant Grand Line weather effect.
+ * Subdued, rare, low-opacity horizon flashes tinted from the brand palette.
+ * Purely decorative background layer (z-[5]) with zero intrusion on text or UI.
  * Respects `prefers-reduced-motion`.
  */
 
@@ -76,14 +74,15 @@ export default function SiteThunder() {
       const glow = lighten(tint, 0.4); // colored halo
 
       svg.innerHTML = "";
-      const boltCount = 1 + Math.floor(Math.random() * 2); // 1–2 bolts
+      // Rare distant bolt: 60% chance of 1 thin horizon bolt, 40% purely ambient sky illumination
+      const boltCount = Math.random() < 0.6 ? 1 : 0;
       const groups: SVGGElement[] = [];
 
       for (let i = 0; i < boltCount; i++) {
         const startX = 120 + Math.random() * 760;
         const { main, branches } = makeBolt(startX);
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        g.style.filter = `drop-shadow(0 0 6px ${glow}) drop-shadow(0 0 18px ${glow})`;
+        g.style.filter = `drop-shadow(0 0 4px ${glow})`;
 
         const mk = (d: string, w: number, stroke: string, op: number) => {
           const p = document.createElementNS(
@@ -100,51 +99,47 @@ export default function SiteThunder() {
           g.appendChild(p);
         };
 
-        mk(main, 9, glow, 0.5); // outer glow stroke
-        mk(main, 3, core, 1); // hot core
+        mk(main, 4, glow, 0.25); // faint outer glow stroke
+        mk(main, 1.5, core, 0.6); // slender distant core
         branches.forEach((b) => {
-          mk(b, 5, glow, 0.35);
-          mk(b, 1.5, core, 0.85);
+          mk(b, 2.5, glow, 0.15);
+          mk(b, 1, core, 0.4);
         });
 
         svg.appendChild(g);
         groups.push(g);
       }
 
-      // Flicker each bolt like real lightning (staggered double-strike)
-      groups.forEach((g, i) => {
+      // Smooth, distant horizon fade — no harsh strobing
+      groups.forEach((g) => {
         gsap
-          .timeline({ delay: i * 0.08 })
-          .fromTo(g, { opacity: 0 }, { opacity: 1, duration: 0.04, ease: "none" })
-          .to(g, { opacity: 0.15, duration: 0.05 })
-          .to(g, { opacity: 1, duration: 0.04 })
-          .to(g, { opacity: 0, duration: 0.35, ease: "power2.in" }, "+=0.08");
+          .timeline()
+          .fromTo(g, { opacity: 0 }, { opacity: 0.4, duration: 0.08, ease: "power1.out" })
+          .to(g, { opacity: 0, duration: 0.7, ease: "power2.out" }, "+=0.05");
       });
 
-      // Soft colored sky flash — kept subtle so text stays readable
+      // Distant atmospheric sky illumination — soft, low opacity, text stays 100% readable
       gsap
         .timeline()
         .set(flash, { backgroundColor: core })
-        .fromTo(flash, { opacity: 0 }, { opacity: 0.22, duration: 0.05, ease: "none" })
-        .to(flash, { opacity: 0.05, duration: 0.06 })
-        .to(flash, { opacity: 0.16, duration: 0.05 })
-        .to(flash, { opacity: 0, duration: 0.5, ease: "power2.out" });
+        .fromTo(flash, { opacity: 0 }, { opacity: 0.045, duration: 0.09, ease: "power1.out" })
+        .to(flash, { opacity: 0, duration: 1.1, ease: "power2.out" });
     };
 
     const loop = () => {
       strike();
-      // next strike in 5–12s so it stays ambient, not constant
-      timer = window.setTimeout(loop, 5000 + Math.random() * 7000);
+      // next strike in 25–45s so it stays rare, ambient, and non-intrusive
+      timer = window.setTimeout(loop, 25000 + Math.random() * 20000);
     };
 
-    // first strike shortly after load
-    timer = window.setTimeout(loop, 2000 + Math.random() * 2000);
+    // first strike at 15–25s after load
+    timer = window.setTimeout(loop, 15000 + Math.random() * 10000);
 
     return () => window.clearTimeout(timer);
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[60]">
+    <div className="pointer-events-none fixed inset-0 z-[5]">
       <div ref={flashRef} className="absolute inset-0 opacity-0 mix-blend-screen" />
       <svg
         ref={svgRef}

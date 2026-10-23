@@ -4,7 +4,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import gsap from "gsap";
 
 export type ThunderBoltsHandle = {
-  /** Fire a lightning strike tinted from the given character color */
+  /** Fire an ambient lightning strike tinted from the given character color */
   strike: (color: string) => void;
 };
 
@@ -30,7 +30,7 @@ function makeBolt(startX: number) {
 
   const branches: string[] = [];
   for (let i = 1; i < points.length - 2; i++) {
-    if (Math.random() < 0.45) {
+    if (Math.random() < 0.4) {
       const [bx, by] = points[i];
       const dir = Math.random() < 0.5 ? -1 : 1;
       branches.push(
@@ -46,8 +46,8 @@ function makeBolt(startX: number) {
 }
 
 /**
- * Full-section lightning overlay. Call `strike(color)` on flavor change:
- * spawns 2–3 glowing bolts, a colored sky flash, and shakes the section.
+ * Full-section ambient lightning overlay for flavor switching.
+ * Gentle, refined Grand Line illumination without jarring shakes or harsh strobes.
  */
 export const ThunderBolts = forwardRef<ThunderBoltsHandle>(
   function ThunderBolts(_, ref) {
@@ -61,20 +61,20 @@ export const ThunderBolts = forwardRef<ThunderBoltsHandle>(
         if (!svg || !flash) return;
 
         const core = lighten(color, 0.85); // near-white hot core
-        const glow = lighten(color, 0.45); // colored glow
+        const glow = lighten(color, 0.4); // character-tinted soft halo
 
         svg.innerHTML = "";
-        const boltCount = 2 + Math.floor(Math.random() * 2);
+        const boltCount = 1;
         const groups: SVGGElement[] = [];
 
         for (let i = 0; i < boltCount; i++) {
-          const startX = 120 + Math.random() * 760;
+          const startX = 180 + Math.random() * 640;
           const { main, branches } = makeBolt(startX);
           const g = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "g",
           );
-          g.style.filter = `drop-shadow(0 0 6px ${glow}) drop-shadow(0 0 18px ${glow})`;
+          g.style.filter = `drop-shadow(0 0 4px ${glow})`;
 
           const mk = (d: string, w: number, stroke: string, op: number) => {
             const p = document.createElementNS(
@@ -91,59 +91,39 @@ export const ThunderBolts = forwardRef<ThunderBoltsHandle>(
             g.appendChild(p);
           };
 
-          mk(main, 11, glow, 0.55); // outer glow stroke
-          mk(main, 4, core, 1); // hot core
+          mk(main, 5, glow, 0.35); // subtle outer glow stroke
+          mk(main, 2, core, 0.85); // crisp slender core
           branches.forEach((b) => {
-            mk(b, 6, glow, 0.4);
-            mk(b, 2, core, 0.9);
+            mk(b, 3, glow, 0.25);
+            mk(b, 1.2, core, 0.65);
           });
 
           svg.appendChild(g);
           groups.push(g);
         }
 
-        // Flicker each bolt like real lightning (staggered double-strike)
-        groups.forEach((g, i) => {
+        // Soft, elegant single-stroke illumination with smooth fadeout
+        groups.forEach((g) => {
           gsap
-            .timeline({ delay: i * 0.07 })
+            .timeline()
             .fromTo(
               g,
               { opacity: 0 },
-              { opacity: 1, duration: 0.04, ease: "none" },
+              { opacity: 0.6, duration: 0.08, ease: "power1.out" },
             )
-            .to(g, { opacity: 0.15, duration: 0.05 })
-            .to(g, { opacity: 1, duration: 0.04 })
-            .to(g, { opacity: 0, duration: 0.3, ease: "power2.in" }, "+=0.08");
+            .to(g, { opacity: 0, duration: 0.55, ease: "power2.out" }, "+=0.06");
         });
 
-        // Colored sky flash
+        // Subtle atmospheric character-tinted sky flash (max 0.12 opacity)
         gsap
           .timeline()
           .set(flash, { backgroundColor: core })
           .fromTo(
             flash,
             { opacity: 0 },
-            { opacity: 0.5, duration: 0.05, ease: "none" },
+            { opacity: 0.12, duration: 0.08, ease: "power1.out" },
           )
-          .to(flash, { opacity: 0.1, duration: 0.06 })
-          .to(flash, { opacity: 0.35, duration: 0.05 })
-          .to(flash, { opacity: 0, duration: 0.45, ease: "power2.out" });
-
-        // Rumble the whole section
-        gsap.fromTo(
-          ".carousel",
-          { x: 0, y: 0 },
-          {
-            keyframes: [
-              { x: -7, y: 3, duration: 0.05 },
-              { x: 6, y: -4, duration: 0.05 },
-              { x: -4, y: 2, duration: 0.05 },
-              { x: 3, y: -1, duration: 0.05 },
-              { x: 0, y: 0, duration: 0.08 },
-            ],
-            ease: "none",
-          },
-        );
+          .to(flash, { opacity: 0, duration: 0.65, ease: "power2.out" });
       },
     }));
 
@@ -151,13 +131,13 @@ export const ThunderBolts = forwardRef<ThunderBoltsHandle>(
       <>
         <div
           ref={flashRef}
-          className="pointer-events-none absolute inset-0 z-20 opacity-0 mix-blend-screen"
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 mix-blend-screen"
         />
         <svg
           ref={svgRef}
           viewBox="0 0 1000 1000"
           preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 z-20 h-full w-full"
+          className="pointer-events-none absolute inset-0 z-10 h-full w-full"
         />
       </>
     );

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import clsx from "clsx";
@@ -151,7 +151,7 @@ export default function InteractiveShowcase() {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 max-h-[480px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 gap-3.5 max-h-[500px] overflow-y-auto p-3 rounded-2xl border border-white/5 bg-[#05070B]/40 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
               {DRINKS.map((drink) => {
                 const isSelected = drink.key === selectedFlavor;
                 return (
@@ -160,30 +160,33 @@ export default function InteractiveShowcase() {
                     type="button"
                     onClick={() => setSelectedFlavor(drink.key)}
                     className={clsx(
-                      "group relative flex flex-col items-start rounded-2xl border p-4 text-left transition-all duration-300",
+                      "group relative flex flex-col justify-between rounded-2xl border p-4 text-left transition-all duration-300 min-h-[148px] will-change-transform outline-none focus-visible:ring-2 focus-visible:ring-[#E60026]",
                       isSelected
-                        ? "border-[#E60026] bg-[#161E30]/95 shadow-[0_0_25px_rgba(230,0,38,0.3)] scale-[1.02]"
-                        : "border-white/10 bg-[#0A0D14]/70 hover:border-white/30 hover:bg-[#101522] hover:-translate-y-1"
+                        ? "z-10 border-[#E60026] bg-[#161E30]/95 shadow-[0_0_25px_rgba(230,0,38,0.35)] scale-[1.02]"
+                        : "z-[1] border-white/10 bg-[#0A0D14]/75 hover:z-20 hover:border-white/35 hover:bg-[#101522] hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(0,0,0,0.6)]"
                     )}
                   >
-                    {/* Character color bar */}
-                    <div className="flex items-center justify-between w-full mb-2.5">
-                      <span
-                        className="h-1.5 w-6 rounded-full"
-                        style={{ backgroundColor: drink.color }}
-                      />
-                      <span className="font-display text-[10px] font-medium uppercase tracking-wider text-[#94A3B8]">
-                        300 Berries
-                      </span>
+                    <div>
+                      {/* Character color bar */}
+                      <div className="flex items-center justify-between w-full mb-2.5">
+                        <span
+                          className="h-1.5 w-6 rounded-full transition-transform duration-300 group-hover:scale-x-125 origin-left"
+                          style={{ backgroundColor: drink.color }}
+                        />
+                        <span className="font-display text-[10px] font-medium uppercase tracking-wider text-[#94A3B8]">
+                          300 Berries
+                        </span>
+                      </div>
+
+                      <p className="font-display text-xs font-semibold uppercase tracking-wider text-[#CBD5E1]">
+                        {drink.character}
+                      </p>
+                      <h4 className="font-display text-sm font-bold text-white mt-0.5">
+                        {drink.name}
+                      </h4>
                     </div>
 
-                    <p className="font-display text-xs font-semibold uppercase tracking-wider text-[#CBD5E1]">
-                      {drink.character}
-                    </p>
-                    <h4 className="font-display text-sm font-bold text-white mt-0.5">
-                      {drink.name}
-                    </h4>
-                    <p className="mt-1 text-xs text-[#94A3B8] line-clamp-2 leading-relaxed">
+                    <p className="mt-2 text-xs text-[#94A3B8] line-clamp-2 leading-relaxed">
                       {drink.flavorNotes}
                     </p>
                   </button>

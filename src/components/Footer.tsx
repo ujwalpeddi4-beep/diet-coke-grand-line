@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { GrandLineLogo } from "./GrandLineLogo";
@@ -36,6 +36,13 @@ export default function Footer() {
           <p>
             © 2026 Diet Coke × One Piece Collaboration. Crafted for fans across the Grand Line.
             All character likenesses © Eiichiro Oda / Shueisha, Toei Animation.
+          </p>
+        </div>
+
+        {/* Creator Credit */}
+        <div className="pt-2 border-t border-white/5 w-full flex justify-center">
+          <p className="font-display text-[11px] uppercase tracking-[0.22em] text-[#94A3B8] transition-colors hover:text-white">
+            Made by <span className="font-semibold text-[#E2E8F0]">ujwal.peddi</span>
           </p>
         </div>
       </div>
