@@ -27,8 +27,20 @@ export default function Footer() {
           <a href="#crew" className="transition-colors hover:text-white">
             Crew Lineup
           </a>
+          <a href="#luffy-evolution" className="transition-colors hover:text-white">
+            Luffy Evolution
+          </a>
+          <a href="#duo-reveals" className="transition-colors hover:text-white">
+            Zoro &amp; Sanji
+          </a>
+          <a href="#voyage" className="transition-colors hover:text-white">
+            Sunny Voyage
+          </a>
+          <a href="#shanks-haki" className="transition-colors hover:text-white">
+            Shanks Haki
+          </a>
           <a href="#manifest" className="transition-colors hover:text-white">
-            Manifest
+            Final Chapter
           </a>
         </nav>
 
@@ -42,7 +54,7 @@ export default function Footer() {
         {/* Creator Credit */}
         <div className="pt-2 border-t border-white/5 w-full flex justify-center">
           <p className="font-display text-[11px] uppercase tracking-[0.22em] text-[#94A3B8] transition-colors hover:text-white">
-            Made by <span className="font-semibold text-[#E2E8F0]">ujwal.peddi</span>
+            Designed by <span className="font-semibold text-[#E2E8F0]">ujwal.peddi</span>
           </p>
         </div>
       </div>

@@ -31,7 +31,7 @@ const SECTIONS = [
  */
 const AlternatingText = (): JSX.Element => {
   return (
-    <Bounded className="alternating-text-container op-grain relative bg-[#0D1A2A] text-[#ECE4D3]">
+    <Bounded id="voyage" className="alternating-text-container op-grain relative bg-[#0D1A2A] text-[#ECE4D3]">
       {/* Faint Grand Line sea-chart / map texture. */}
       <div
         aria-hidden="true"
@@ -55,7 +55,7 @@ const AlternatingText = (): JSX.Element => {
                 )}
               >
                 <span className="op-kicker text-sm text-[#C9A227]/70">
-                  {item.index} / 03
+                  {item.index} / 03 · Thousand Sunny Voyage
                 </span>
                 <SplitText
                   as="h2"

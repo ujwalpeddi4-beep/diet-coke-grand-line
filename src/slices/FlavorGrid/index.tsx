@@ -24,8 +24,6 @@ const CAN_SPRITE: Record<DrinkKey, string> = {
   zoro: "3% 9%",
   luffy: "49% 9%",
   nami: "93% 9%",
-  // bottom row sits a little high so the crop clears the feature-text bar
-  // along the bottom edge of the source image
   chopper: "3% 84%",
   sanji: "49% 84%",
   ace: "93% 84%",
@@ -33,8 +31,7 @@ const CAN_SPRITE: Record<DrinkKey, string> = {
 
 /**
  * FlavorGrid — "The Full Manifest". A spotlight-card grid of the whole
- * six-can lineup plus a count-up stat strip. This is the page's product
- * catalogue beat: scannable, premium, and it makes the range feel complete.
+ * six-can lineup plus a count-up stat strip.
  */
 const FlavorGrid = (): JSX.Element => {
   return (
@@ -141,6 +138,38 @@ const FlavorGrid = (): JSX.Element => {
               </div>
             </SpotlightCard>
           ))}
+        </div>
+
+        {/* Honorary Reserve Crew Lineup: Brook & Jinbe */}
+        <div className="mt-12 rounded-2xl border border-white/10 bg-[#0A0D14]/70 p-6 md:p-8 backdrop-blur-xl">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/5 text-[#E60026]">
+                <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-display text-xs font-semibold uppercase tracking-[0.24em] text-[#E60026]">
+                  Straw Hat Reserve Crew
+                </p>
+                <h4 className="font-display text-lg md:text-xl font-bold uppercase tracking-wide text-white mt-0.5">
+                  Soul King Brook &amp; Knight of the Sea Jinbe
+                </h4>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4 w-full md:w-auto">
+              <div className="rounded-xl border border-white/10 bg-[#05070B]/80 px-4 py-3">
+                <span className="font-pirate text-xs tracking-wider text-[#A78BFA]">Brook · Soul Solid Ice</span>
+                <p className="text-xs text-[#94A3B8] mt-1">Sub-zero crispness that chills to the bone (Yo-ho-ho!)</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-[#05070B]/80 px-4 py-3">
+                <span className="font-pirate text-xs tracking-wider text-[#38BDF8]">Jinbe · Ocean Current Surge</span>
+                <p className="text-xs text-[#94A3B8] mt-1">Fish-Man Karate wave impact with refreshing ocean sea-spray</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Bounded>

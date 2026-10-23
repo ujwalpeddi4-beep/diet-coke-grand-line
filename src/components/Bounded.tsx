@@ -1,6 +1,7 @@
+import React from "react";
 import clsx from "clsx";
 
-type BoundedProps = {
+export type BoundedProps = React.HTMLAttributes<HTMLElement> & {
   as?: React.ElementType;
   className?: string;
   id?: string;

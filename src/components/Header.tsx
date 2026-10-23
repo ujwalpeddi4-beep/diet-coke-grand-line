@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
@@ -7,9 +7,13 @@ import { GrandLineLogo } from "@/components/GrandLineLogo";
 const NAV_LINKS = [
   { label: "Overview", href: "#hero" },
   { label: "Cinematic", href: "#cinematic" },
-  { label: "3D Showcase", href: "#showcase" },
+  { label: "3D Can", href: "#showcase" },
   { label: "Awakening", href: "#adventure" },
-  { label: "Crew Lineup", href: "#crew" },
+  { label: "Crew", href: "#crew" },
+  { label: "Luffy", href: "#luffy-evolution" },
+  { label: "Zoro & Sanji", href: "#duo-reveals" },
+  { label: "Sunny Voyage", href: "#voyage" },
+  { label: "Shanks Haki", href: "#shanks-haki" },
   { label: "Manifest", href: "#manifest" },
 ];
 
@@ -56,7 +60,7 @@ export default function Header() {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 lg:gap-8 md:flex">
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
             return (
@@ -64,7 +68,7 @@ export default function Header() {
                 key={link.label}
                 href={link.href}
                 className={clsx(
-                  "relative py-1 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200",
+                  "relative py-1 text-xs font-medium uppercase tracking-[0.14em] transition-colors duration-200",
                   isActive
                     ? "text-white"
                     : "text-[#94A3B8] hover:text-white"
